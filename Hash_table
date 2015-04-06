@@ -20,6 +20,7 @@ public class Hash_table {
 	Hash_table() {
 		h = new Hash[HashSize];
 		for (int i = 0; i < HashSize; i++) {
+			h[i] = new Hash();
 			h[i].key = i;
 		}
 	}
@@ -34,7 +35,7 @@ public class Hash_table {
 
 		if (h[i].head == null) {
 			System.out.println("No such element!");
-			System.exit(-1);
+			return;
 		}
 
 		l = h[i].head;
@@ -42,13 +43,12 @@ public class Hash_table {
 		while (l.val != element) {
 			if (l.next == null) {
 				System.out.println("No such element!");
-				System.exit(-1);
+				return;
 			}
 			l = l.next;
 		}
 
 		System.out.println("Element was found!");
-		System.out.println("HashFunction(element) = " + value);
 	}
 
 	public void hashAdd(int element) {
@@ -61,12 +61,20 @@ public class Hash_table {
 
 		l = h[i].head;
 
-		while (l.next != null) {
-			l = l.next;
+		if (l == null) {
+			List new_list = new List();
+			h[i].head = new_list;
+			h[i].head.val = element;
+			h[i].head.next = null;
+		} else {
+
+			while (l.next != null) {
+				l = l.next;
+			}
+			List new_data = new List();
+			new_data.val = element;
+			l.next = new_data;
 		}
-		List new_data = new List();
-		new_data.val = element;
-		l.next = new_data;
 	}
 
 	public void hashDelete(int element) {
@@ -79,7 +87,7 @@ public class Hash_table {
 
 		if (h[i].head == null) {
 			System.out.println("No such element!");
-			System.exit(-1);
+			return;
 		}
 
 		l = h[i].head;
@@ -88,12 +96,12 @@ public class Hash_table {
 			if (l.next.val == element) {
 				l.next = l.next.next;
 				System.out.println("Element was successfully deleted!");
-				System.exit(1);
+				return;
 			} else {
 				l = l.next;
 			}
 		}
-		System.out.println("Element wasn't found!");
-		System.exit(-1);
+		System.out.println("No such element!");
+		return;
 	}
 }

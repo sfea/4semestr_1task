@@ -1,3 +1,4 @@
+
 public class List {
 	public List next;
 	public int val;
